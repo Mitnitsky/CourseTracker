@@ -95,35 +95,39 @@ class mywindow(QtWidgets.QMainWindow):
         if self.grades == []:
             self.errorMessage()
             return
-        for grade in range(0, len(self.grades[0])):
+        for column in range(0, len(self.grades[0])):
             if not self.gotGrades:
                 self.ui.grades_table.setColumnCount(len(self.grades[0]))
                 self.ui.grades_table.setRowCount(len(self.grades))
-                for k in range(0, len(self.grades)):
-                    self.ui.grades_table.setItem(k,grade,QtWidgets.QTableWidgetItem(self.grades[k][grade]))
+                for col in range(0, len(self.grades[0])):
+                    for row in range(0, len(self.grades)):
+                        item = QtWidgets.QTableWidgetItem()
+                        self.ui.grades_table.setItem(row,column,item)
+                for row in range(0, len(self.grades)):
+                    self.ui.grades_table.item(row,column).setText(self.grades[row][column])
             else:
                 try:
                     self.ui.grades_table.setColumnCount(len(self.grades[0]))
                     self.ui.grades_table.setRowCount(len(self.grades))
                     newGrades = []
-                    for k in range(0, len(self.grades)):
-                        newGrades.append(QtWidgets.QTableWidgetItem(self.grades[k][grade]))
+                    for row in range(0, len(self.grades)):
+                        newGrades.append(QtWidgets.QTableWidgetItem(self.grades[row][column]))
                     if not changedInput and \
-                        ((newGrades[0] and self.ui.grades_table.item(0,grade).text() != newGrades[0].text()) or \
-                        (newGrades[1] and self.ui.grades_table.item(1,grade).text() != newGrades[1].text())):
+                        ((newGrades[0] and self.ui.grades_table.item(0,column).text() != newGrades[0].text()) or \
+                        (newGrades[1] and self.ui.grades_table.item(1,column).text() != newGrades[1].text())):
                         notify=True
                         brush = QtGui.QBrush(QtGui.QColor(58, 213, 34))
                         brush.setStyle(QtCore.Qt.NoBrush)
-                        for k in range(0, len(self.grades)):
-                            newGrades[k].setForeground(brush)
-                    for k in range(0, len(self.grades)):
-                        self.ui.grades_table.setItem(k,grade,newGrades[k])
+                        for row in range(0, len(self.grades)):
+                            newGrades[row].setForeground(brush)
+                    for row in range(0, len(self.grades)):
+                        self.ui.grades_table.setItem(row,column,newGrades[row])
                 except ValueError or TypeError:
-                    for k in range(0, len(self.grades)):
-                        self.ui.grades_table.setItem(k,grade,QtWidgets.QTableWidgetItem(newGrades[k]))
+                    for row in range(0, len(self.grades)):
+                        self.ui.grades_table.setItem(row,column,QtWidgets.QTableWidgetItem(newGrades[row]))
         if(len(self.grades[0]) > 0) and not self.ui.stop_button.isEnabled():
             self.ui.start_button.setEnabled(True)
-            self.io.start_button.setToolTip("")
+            self.ui.start_button.setToolTip("")
         self.playSound(notify)
         self.gotGrades=True
 

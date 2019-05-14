@@ -6,8 +6,8 @@ from platform import system
 
 #Global constants
 enumHeader = {
-    'Field'  : 0,
-    'Grade'  : 1,
+    'Field': 0,
+    'Grade': 1,
     'Average': 2
 }
 
@@ -52,10 +52,10 @@ def getGrades(postPackage):
                     foundHeader = True
                     continue
                 columns = table_row.findAll('td')
-                counter=0
+                cnt=0
                 for column in columns:
-                    if counter == 0 and gotFirstTable:
-                        counter = 1
+                    if cnt == 0 and gotFirstTable:
+                        cnt = 1
                         continue
                     if(column.text.startswith("(*)")):
                         continue
@@ -66,9 +66,9 @@ def getGrades(postPackage):
                 counter += 1
             gotFirstTable=True
         result = []
-        for grade in grades:
-            if len(grade) > 0:
-                result.append(grade)
+        for a in grades:
+            if len(a) > 0:
+                result.append(a)
         return result
 
 

@@ -12,9 +12,6 @@ if 'Breeze' in QtWidgets.QStyleFactory.keys():
 else:
     ## Windows case
     app.setStyle('Fusion')
-# icon = QtGui.QIcon()
-# icon.addPixmap(QtGui.QPixmap("images/main_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-# app.setWindowIcon(icon)
 application.show()
  
 sys.exit(app.exec())
