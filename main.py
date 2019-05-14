@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
  
-from mydes import Ui_MainWindow  # importing our generated file
+from ui_design import Ui_MainWindow  # importing our generated file
 import courseparser as cp
 import sys
 import os
@@ -167,7 +167,16 @@ class mywindow(QtWidgets.QMainWindow):
 app = QtWidgets.QApplication([])
  
 application = mywindow()
- 
+
+if 'Breeze' in QtWidgets.QStyleFactory.keys():
+    ## Linux case
+    app.setStyle('Breeze')
+else:
+    ## Windows case
+    app.setStyle('Fusion')
+icon = QtGui.QIcon()
+icon.addPixmap(QtGui.QPixmap("images/main_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+app.setWindowIcon(icon)
 application.show()
  
 sys.exit(app.exec())
