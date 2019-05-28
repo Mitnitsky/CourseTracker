@@ -14,7 +14,8 @@
  pip install requests
  pip install bs4
  pip install pyqt5
- pip install csvkit
+ pip install html5
+ pip install lxml
  ```
 
 ## Instalation
