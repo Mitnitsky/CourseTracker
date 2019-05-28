@@ -8,11 +8,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import json
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        width, height = loadDimensions()
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1202, 740)
+        MainWindow.resize(width, height)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -150,7 +152,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.id_in.sizePolicy().hasHeightForWidth())
         self.id_in.setSizePolicy(sizePolicy)
         self.id_in.setFocusPolicy(QtCore.Qt.StrongFocus)
-        self.id_in.setText("")
+        self.id_in.setText(loadUserName())
         self.id_in.setClearButtonEnabled(False)
         self.id_in.setObjectName("id_in")
         self.gridLayout.addWidget(self.id_in, 1, 3, 1, 2)
@@ -211,8 +213,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "GradesTracker"))
-        self.table_header.setText(_translate("MainWindow", "Course Grades"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Course Tracker"))
+        self.table_header.setText(_translate("MainWindow", "Grades Tracker"))
         self.pass_in.setToolTip(_translate("MainWindow", "<html><head/><body><p>Technion account password</p></body></html>"))
         self.id_label.setText(_translate("MainWindow", "ID"))
         self.year_label.setText(_translate("MainWindow", "Year"))
@@ -232,8 +234,20 @@ class Ui_MainWindow(object):
         self.start_button.setText(_translate("MainWindow", "Start"))
         self.stop_button.setText(_translate("MainWindow", "Stop"))
         self.stop_button.setToolTip(_translate("MainWindow", "No tracker is running"))
-        self.gradesTrackerheader.setText(_translate("MainWindow", "Grades Tracker:"))
+        self.gradesTrackerheader.setText(_translate("MainWindow", "Course Tracker:"))
         self.soundNotification.setToolTip(_translate("MainWindow", "<html><head/><body><p>Notify will be sounded when new grade is found</p></body></html>"))
         self.soundNotification.setText(_translate("MainWindow", "Sound notification "))
 
+def loadDimensions():
+    with open("settings.json", "r") as read_file:
+        data = json.load(read_file)
+        width = data['dimensions'][0]['width']
+        height = data['dimensions'][0]['height']
+        return width, height
+    return 1320, 565
 
+def loadUserName():
+    with open("settings.json", "r") as read_file:
+        data = json.load(read_file)
+        return data['user_name']
+    return ''

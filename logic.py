@@ -6,6 +6,7 @@ import sys
 import os
 from time import sleep
 import threading
+import json
 
 
 class mywindow(QtWidgets.QMainWindow):
@@ -29,6 +30,27 @@ class mywindow(QtWidgets.QMainWindow):
         self.threads = []
         self.stopPressed = []
         self.currentThread = 0
+
+    def cacheUserName(self):
+        self.ui.id_in.text()
+        try:
+            read_write_file = open("settings.json", "r+")
+            if read_write_file:
+                data = json.load(read_write_file)
+                data['user_name'] = self.ui.id_in.text()
+                data['dimensions'][0]['width'] = self.width()
+                data['dimensions'][0]['height'] = self.height()
+                read_write_file.seek(0)
+                json.dump(data, read_write_file, indent=4)
+                read_write_file.truncate()
+        except (FileNotFoundError, KeyError, json.decoder.JSONDecodeError):
+            pass
+        
+
+    # Closing main windows override, check if there is unsaved data and prompts the user if so for save
+    def closeEvent(self, event):
+        self.cacheUserName()
+        return super().closeEvent(event)
 
     def getDate(self):
         if self.ui.semester_in.currentText() == 'Winter':
