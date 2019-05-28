@@ -21,11 +21,20 @@
 ## Instalation
 
  ### Windows:
- [Installer](https://github.com/Vladimir-pa/CourseTracker/releases/download/v1.0/course_tracker_install.exe)
+ [Installer](https://github.com/Vladimir-pa/CourseTracker/releases/download/v1.1/course_tracker_install.exe)
  
  1.Download
  
  2.Install into desired folder.
+ 
+ 3.Use
+
+ ### Linux:
+ [Course_tracker.zip](https://github.com/Vladimir-pa/CourseTracker/releases/download/v1.1/Course_tracker.zip)
+ 
+ 1.Download
+ 
+ 2.Extract into desired folder.
  
  3.Use
 
