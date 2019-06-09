@@ -56,9 +56,9 @@ class mywindow(QtWidgets.QMainWindow):
         if self.ui.semester_in.currentText() == 'Winter':
             return self.ui.year_in.text()+'01'
         elif self.ui.semester_in.currentText() == 'Spring':
-            return self.ui.year_in.text()+'02'
+            return str(int(self.ui.year_in.text())-1)+'02'
         elif self.ui.semester_in.currentText() == 'Summer':
-            return self.ui.year_in.text()+'03'
+            return str(int(self.ui.year_in.text())-1)+'03'
         else:
             return 'WTF is wrong Technion?'
 
