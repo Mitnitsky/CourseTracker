@@ -6,9 +6,10 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import json
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-import json
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -66,7 +67,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.table_header.setFont(font)
         self.table_header.setStyleSheet("font: 12pt \"Noto Sans\";\n"
-"text-decoration: underline;")
+                                        "text-decoration: underline;")
         self.table_header.setAlignment(QtCore.Qt.AlignCenter)
         self.table_header.setObjectName("table_header")
         self.gridLayout_6.addWidget(self.table_header, 0, 0, 1, 1)
@@ -161,7 +162,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.semester_label, 5, 0, 1, 3)
         self.label = QtWidgets.QLabel(self.frame)
         self.label.setStyleSheet("font: 12pt \"Noto Sans\";\n"
-"text-decoration: underline;")
+                                 "text-decoration: underline;")
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.gridLayout_5.addLayout(self.gridLayout, 0, 0, 1, 1)
@@ -189,7 +190,7 @@ class Ui_MainWindow(object):
         self.gridLayout_9.addLayout(self.horizontalLayout, 3, 0, 1, 1)
         self.gradesTrackerheader = QtWidgets.QLabel(self.frame_3)
         self.gradesTrackerheader.setStyleSheet("font: 18pt \"Noto Sans\";\n"
-"text-decoration: underline;")
+                                               "text-decoration: underline;")
         self.gradesTrackerheader.setObjectName("gradesTrackerheader")
         self.gridLayout_9.addWidget(self.gradesTrackerheader, 1, 0, 1, 1)
         self.soundNotification = QtWidgets.QCheckBox(self.frame_3)
@@ -199,7 +200,7 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addWidget(self.frame_3, 1, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.grades_table.horizontalHeader().setSectionResizeMode(
-        QtWidgets.QHeaderView.Stretch)
+            QtWidgets.QHeaderView.Stretch)
         self.grades_table.setLayoutDirection(QtCore.Qt.RightToLeft)
 
         self.retranslateUi(MainWindow)
@@ -215,28 +216,35 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Course Tracker"))
         self.table_header.setText(_translate("MainWindow", "Grades Tracker"))
-        self.pass_in.setToolTip(_translate("MainWindow", "<html><head/><body><p>Technion account password</p></body></html>"))
+        self.pass_in.setToolTip(
+            _translate("MainWindow", "<html><head/><body><p>Technion account password</p></body></html>"))
         self.id_label.setText(_translate("MainWindow", "ID"))
         self.year_label.setText(_translate("MainWindow", "Year"))
         self.pass_label.setText(_translate("MainWindow", "Password"))
-        self.frequency_spin.setToolTip(_translate("MainWindow", "<html><head/><body><p>Check every * sec if there is new grade</p></body></html>"))
+        self.frequency_spin.setToolTip(
+            _translate("MainWindow", "<html><head/><body><p>Check every * sec if there is new grade</p></body></html>"))
         self.getGradesButton.setText(_translate("MainWindow", "Get Grades"))
         self.course_label.setText(_translate("MainWindow", "Course Number"))
         self.semester_in.setItemText(0, _translate("MainWindow", "Winter"))
         self.semester_in.setItemText(1, _translate("MainWindow", "Spring"))
         self.semester_in.setItemText(2, _translate("MainWindow", "Summer"))
         self.frequency_label.setText(_translate("MainWindow", "Check Frequency(sec)"))
-        self.course_in.setToolTip(_translate("MainWindow", "<html><head/><body><p>Course number to track</p></body></html>"))
-        self.id_in.setToolTip(_translate("MainWindow", "<html><head/><body><p>Your cs account ID (without the @*)</p></body></html>"))
+        self.course_in.setToolTip(
+            _translate("MainWindow", "<html><head/><body><p>Course number to track</p></body></html>"))
+        self.id_in.setToolTip(
+            _translate("MainWindow", "<html><head/><body><p>Your cs account ID (without the @*)</p></body></html>"))
         self.semester_label.setText(_translate("MainWindow", "Semester"))
         self.label.setText(_translate("MainWindow", "User data:"))
-        self.start_button.setToolTip(_translate("MainWindow", "<html><head/><body><p>You must get the grades for the course first!</p></body></html>"))
+        self.start_button.setToolTip(_translate("MainWindow",
+                                                "<html><head/><body><p>You must get the grades for the course first!</p></body></html>"))
         self.start_button.setText(_translate("MainWindow", "Start"))
         self.stop_button.setText(_translate("MainWindow", "Stop"))
         self.stop_button.setToolTip(_translate("MainWindow", "No tracker is running"))
         self.gradesTrackerheader.setText(_translate("MainWindow", "Course Tracker:"))
-        self.soundNotification.setToolTip(_translate("MainWindow", "<html><head/><body><p>Notify will be sounded when new grade is found</p></body></html>"))
+        self.soundNotification.setToolTip(_translate("MainWindow",
+                                                     "<html><head/><body><p>Notify will be sounded when new grade is found</p></body></html>"))
         self.soundNotification.setText(_translate("MainWindow", "Sound notification "))
+
 
 def loadDimensions():
     with open("settings.json", "r") as read_file:
@@ -245,6 +253,7 @@ def loadDimensions():
         height = data['dimensions'][0]['height']
         return width, height
     return 1320, 565
+
 
 def loadUserName():
     with open("settings.json", "r") as read_file:

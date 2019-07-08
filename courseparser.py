@@ -1,10 +1,11 @@
-import requests
 import os
-from bs4 import BeautifulSoup
-from time import sleep
 from platform import system
+from time import sleep
 
-#Global constants
+import requests
+from bs4 import BeautifulSoup
+
+# Global constants
 enumHeader = {
     'Field': 0,
     'Grade': 1,
@@ -13,20 +14,20 @@ enumHeader = {
 
 
 def getIntegerNumber(type):
-    courseNumber = input("\nPlease enter required " + type+ ": ")
+    courseNumber = input("\nPlease enter required " + type + ": ")
     while True:
         try:
             courseNumber = int(courseNumber)
             return courseNumber
         except ValueError:
-            print(type+" number must be an integer!\n")
+            print(type + " number must be an integer!\n")
             courseNumber = input("Please re-enter required" + type)
 
 
 def printGradesFromCSV(filename):
-        print("\n")
-        command = 'csvlook '+filename+'.csv'
-        os.system(command)
+    print("\n")
+    command = 'csvlook ' + filename + '.csv'
+    os.system(command)
 
 
 def getGrades(postPackage):
@@ -34,43 +35,42 @@ def getGrades(postPackage):
         get = session.post(
             'https://grades.cs.technion.ac.il/grades.cgi', data=postPackage)
         soup = BeautifulSoup(get.content, features="html5lib")
-        tables = soup.find_all("table",{"bgcolor": "#112244"})
+        tables = soup.find_all("table", {"bgcolor": "#112244"})
         if tables == None:
-            return [[],[],[]]
-        grades = [[],[],[]]
-        gotFirstTable=False
+            return [[], [], []]
+        grades = [[], [], []]
+        gotFirstTable = False
         for table in tables:
-            counter=0
+            counter = 0
             foundHeader = False
             for table_row in table.findAll('tr'):
                 if not foundHeader:
                     th = table_row.findAll('th')
                     for column in th:
-                        if gotFirstTable and column.text=='':
+                        if gotFirstTable and column.text == '':
                             continue
                         grades[0].append(column.text)
                     foundHeader = True
                     continue
                 columns = table_row.findAll('td')
-                cnt=0
+                cnt = 0
                 for column in columns:
                     if cnt == 0 and gotFirstTable:
                         cnt = 1
                         continue
-                    if(column.text.startswith("(*)")):
+                    if (column.text.startswith("(*)")):
                         continue
                     if counter == 0:
                         grades[1].append(column.text)
                     else:
                         grades[2].append(column.text)
                 counter += 1
-            gotFirstTable=True
+            gotFirstTable = True
         result = []
         for a in grades:
             if len(a) > 0:
                 result.append(a)
         return result
-
 
 
 def createCSVfile(filename, grades):
@@ -113,8 +113,8 @@ def updateGrades(newGrades, oldGrades):
     grades = [[], [], []]
     for grade in range(0, len(newGrades[0])):
         grades[0].append(newGrades[0][grade])
-        if newGrades[1][grade] not in oldGrades[1] or newGrades[0][grade] not in oldGrades[0] :
-            grades[1].append(newGrades[1][grade]+"<-NEW GRADE")
+        if newGrades[1][grade] not in oldGrades[1] or newGrades[0][grade] not in oldGrades[0]:
+            grades[1].append(newGrades[1][grade] + "<-NEW GRADE")
         else:
             grades[1].append(newGrades[1][grade])
         grades[2].append(newGrades[2][grade])
@@ -129,20 +129,18 @@ def makeSound(duration, frequency):
         Beep(frequency=800, duration=0.5)
 
 
-
 def trackGrades(frequency, currentGradesFileName, postPackage):
-
     counter = 0
     while True:
-        print(str(counter//60) + " minutes passed", end='\r')
+        print(str(counter // 60) + " minutes passed", end='\r')
         sleep(frequency)
         grades = getGrades(postPackage)
         previousGrades = csvToList(currentGradesFileName)
         for grade in range(0, len(grades[0])):
             newGradesGrade = grades[enumHeader['Grade']][grade]
             if newGradesGrade not in previousGrades[enumHeader['Grade']]:
-                createCSVfile(currentGradesFileName, 
-                            updateGrades(grades, previousGrades))
+                createCSVfile(currentGradesFileName,
+                              updateGrades(grades, previousGrades))
                 makeSound(duration=0.5, frequency=800)
                 printGradesFromCSV(currentGradesFileName)
                 return
@@ -150,15 +148,15 @@ def trackGrades(frequency, currentGradesFileName, postPackage):
 
 
 def preparePackage(course, ID, password, date):
-    postPackage={
-        'Login':    '1',
-        'Page':     'grades.html',
-        'SEM':      '201801',
+    postPackage = {
+        'Login': '1',
+        'Page': 'grades.html',
+        'SEM': '201801',
         'FromLock': '1',
-        'submit':   'proceed'
+        'submit': 'proceed'
     }
-    postPackage['Course']= str(course)
-    postPackage['ID']= str(ID)
-    postPackage['Password']= str(password)
+    postPackage['Course'] = str(course)
+    postPackage['ID'] = str(ID)
+    postPackage['Password'] = str(password)
     postPackage['SEM'] = date
     return postPackage

@@ -1,7 +1,9 @@
-from logic import mywindow
-from PyQt5 import QtWidgets, QtGui
-import sys
 import json
+
+from PyQt5 import QtWidgets, QtGui
+
+from logic import mywindow
+
 
 def createSettingsFile():
     with open("settings.json", "w") as write_file:
@@ -26,6 +28,7 @@ def checkSettingsFile():
     except (FileNotFoundError, KeyError, json.decoder.JSONDecodeError):
         createSettingsFile()
 
+
 if __name__ == "__main__":
     checkSettingsFile()
     app = QtWidgets.QApplication([])
@@ -35,11 +38,11 @@ if __name__ == "__main__":
     icon.addPixmap(QtGui.QPixmap("images/main_icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
     app.setWindowIcon(icon)
     application.setWindowIcon(icon)
-    if 'Breeze' in QtWidgets.QStyleFactory.keys():
-        ## Linux case
+    if 'Oxygen' in QtWidgets.QStyleFactory.keys():
+        app.setStyle('Oxygen')
+    elif 'Breeze' in QtWidgets.QStyleFactory.keys():
         app.setStyle('Breeze')
     else:
-        ## Windows case
         app.setStyle('Fusion')
     application.show()
     app.exec_()
